@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext.jsx'
 import AuthLayout from '../components/AuthLayout.jsx'
 
 export default function Login() {
-  const { login } = useAuth()
+  const { signIn, mode } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const from = location.state?.from || '/dashboard'
@@ -13,11 +13,11 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
     setError('')
     setLoading(true)
-    const res = login(form)
+    const res = await signIn(form)
     setLoading(false)
     if (res.error) {
       setError(res.error)
@@ -43,7 +43,7 @@ export default function Login() {
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             className="input"
-            placeholder="du@unternehmen.de"
+            placeholder="vorname@cundc.org"
           />
         </div>
         <div>
@@ -68,6 +68,11 @@ export default function Login() {
           Jetzt registrieren
         </Link>
       </p>
+      {mode === 'local' && (
+        <p className="mt-4 text-center text-xs text-slate-500">
+          Demo-Modus: Fortschritt wird lokal in diesem Browser gespeichert.
+        </p>
+      )}
     </AuthLayout>
   )
 }

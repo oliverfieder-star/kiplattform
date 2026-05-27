@@ -8,17 +8,18 @@ export default function Footer() {
           <div className="md:col-span-2">
             <Logo />
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-              Praxisnahe KI-Weiterbildung für Unternehmen und Teams. Wir machen
-              künstliche Intelligenz verständlich, anwendbar und sicher.
+              Die interne KI-Lernplattform von C&amp;C. Wir machen unsere
+              Mitglieder AI-native – praxisnah, mit kuratierten Ressourcen und
+              echten Übungen.
             </p>
           </div>
           <div>
             <h4 className="text-sm font-semibold text-white">Academy</h4>
             <ul className="mt-4 space-y-2.5 text-sm text-slate-400">
-              <li><a href="/kurse" className="hover:text-white">Kurse</a></li>
-              <li><a href="/#vorteile" className="hover:text-white">Vorteile</a></li>
-              <li><a href="/#team" className="hover:text-white">Team</a></li>
-              <li><a href="/register" className="hover:text-white">Registrieren</a></li>
+              <li><a href="#/journey" className="hover:text-white">Learning Journey</a></li>
+              <li><a href="#/tools" className="hover:text-white">Tool-Bibliothek</a></li>
+              <li><a href="#/dashboard" className="hover:text-white">Dashboard</a></li>
+              <li><a href="#/register" className="hover:text-white">Mitmachen</a></li>
             </ul>
           </div>
           <div>

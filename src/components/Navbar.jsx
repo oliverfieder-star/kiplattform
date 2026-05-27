@@ -1,23 +1,22 @@
 import { useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import Logo from './Logo.jsx'
 
 export default function Navbar() {
-  const { user, logout } = useAuth()
+  const { user, signOut, streak } = useAuth()
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
 
-  const handleLogout = () => {
-    logout()
+  const handleSignOut = async () => {
+    await signOut()
+    setOpen(false)
     navigate('/')
   }
 
   const links = [
-    { to: '/kurse', label: 'Kurse' },
-    { to: '/#vorteile', label: 'Vorteile' },
-    { to: '/#team', label: 'Team' },
-    { to: '/#kontakt', label: 'Kontakt' },
+    { to: '/journey', label: 'Learning Journey' },
+    { to: '/tools', label: 'Tools' },
   ]
 
   return (
@@ -27,23 +26,28 @@ export default function Navbar() {
 
         <div className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
-            <a
+            <Link
               key={l.to}
-              href={l.to}
+              to={l.to}
               className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:text-white"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
           {user ? (
             <>
+              {streak > 0 && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/15 px-3 py-1.5 text-sm font-semibold text-orange-300">
+                  🔥 {streak}
+                </span>
+              )}
               <Link to="/dashboard" className="btn-ghost">
                 Dashboard
               </Link>
-              <button onClick={handleLogout} className="text-sm font-medium text-slate-300 hover:text-white">
+              <button onClick={handleSignOut} className="text-sm font-medium text-slate-300 hover:text-white">
                 Abmelden
               </button>
             </>
@@ -53,7 +57,7 @@ export default function Navbar() {
                 Anmelden
               </Link>
               <Link to="/register" className="btn-primary">
-                Kostenlos starten
+                Loslegen
               </Link>
             </>
           )}
@@ -74,22 +78,22 @@ export default function Navbar() {
         <div className="border-t border-white/10 px-4 py-4 md:hidden">
           <div className="flex flex-col gap-1">
             {links.map((l) => (
-              <a
+              <Link
                 key={l.to}
-                href={l.to}
+                to={l.to}
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5"
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
             <div className="mt-2 flex flex-col gap-2 border-t border-white/10 pt-3">
               {user ? (
                 <>
                   <Link to="/dashboard" onClick={() => setOpen(false)} className="btn-ghost">
-                    Dashboard
+                    Dashboard {streak > 0 && `· 🔥 ${streak}`}
                   </Link>
-                  <button onClick={handleLogout} className="btn-ghost">
+                  <button onClick={handleSignOut} className="btn-ghost">
                     Abmelden
                   </button>
                 </>
@@ -99,7 +103,7 @@ export default function Navbar() {
                     Anmelden
                   </Link>
                   <Link to="/register" onClick={() => setOpen(false)} className="btn-primary">
-                    Kostenlos starten
+                    Loslegen
                   </Link>
                 </>
               )}

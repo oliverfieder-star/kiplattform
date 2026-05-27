@@ -4,36 +4,47 @@ import { useAuth } from '../context/AuthContext.jsx'
 import AuthLayout from '../components/AuthLayout.jsx'
 
 export default function Register() {
-  const { register } = useAuth()
+  const { signUp, mode } = useAuth()
   const navigate = useNavigate()
 
   const [form, setForm] = useState({ name: '', email: '', password: '' })
   const [error, setError] = useState('')
+  const [info, setInfo] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
     setError('')
+    setInfo('')
     if (form.password.length < 6) {
       setError('Das Passwort muss mindestens 6 Zeichen lang sein.')
       return
     }
     setLoading(true)
-    const res = register(form)
+    const res = await signUp(form)
     setLoading(false)
     if (res.error) {
       setError(res.error)
       return
     }
-    navigate('/dashboard', { replace: true })
+    if (res.info) {
+      setInfo(res.info)
+      return
+    }
+    navigate('/onboarding', { replace: true })
   }
 
   return (
-    <AuthLayout title="Konto erstellen" subtitle="Kostenlos starten – in unter einer Minute.">
+    <AuthLayout title="Konto erstellen" subtitle="Kostenlos für alle C&C-Mitglieder.">
       <form onSubmit={submit} className="space-y-4">
         {error && (
           <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-300">
             {error}
+          </div>
+        )}
+        {info && (
+          <div className="rounded-xl border border-brand-500/30 bg-brand-500/10 px-4 py-3 text-sm text-brand-200">
+            {info}
           </div>
         )}
         <div>
@@ -57,7 +68,7 @@ export default function Register() {
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
             className="input"
-            placeholder="du@unternehmen.de"
+            placeholder="vorname@cundc.org"
           />
         </div>
         <div>
@@ -82,6 +93,11 @@ export default function Register() {
           Anmelden
         </Link>
       </p>
+      {mode === 'local' && (
+        <p className="mt-4 text-center text-xs text-slate-500">
+          Demo-Modus: Fortschritt wird lokal in diesem Browser gespeichert.
+        </p>
+      )}
     </AuthLayout>
   )
 }

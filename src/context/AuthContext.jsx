@@ -1,81 +1,186 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { supabase, isSupabaseConfigured } from '../lib/supabase.js'
+import { store } from '../lib/store.js'
 
 const AuthContext = createContext(null)
+const LOCAL_SESSION = 'cundc_local_session'
 
-const USERS_KEY = 'cundc_users'
-const SESSION_KEY = 'cundc_session'
-const PROGRESS_KEY = 'cundc_progress'
-
-const readUsers = () => {
-  try {
-    return JSON.parse(localStorage.getItem(USERS_KEY)) || []
-  } catch {
-    return []
-  }
-}
-const writeUsers = (users) => localStorage.setItem(USERS_KEY, JSON.stringify(users))
+const mapUser = (su) => ({
+  id: su.id,
+  email: su.email,
+  name: su.user_metadata?.name || su.email,
+})
 
 export function AuthProvider({ children }) {
+  const mode = isSupabaseConfigured ? 'supabase' : 'local'
   const [user, setUser] = useState(null)
-  const [progress, setProgress] = useState({})
+  const [profile, setProfile] = useState(null)
+  const [progress, setProgress] = useState(new Set())
+  const [leaderboard, setLeaderboard] = useState([])
   const [ready, setReady] = useState(false)
+  const loadedRef = useRef(null)
 
-  useEffect(() => {
-    try {
-      const session = JSON.parse(localStorage.getItem(SESSION_KEY))
-      if (session) setUser(session)
-      const prog = JSON.parse(localStorage.getItem(PROGRESS_KEY)) || {}
-      setProgress(prog)
-    } catch {
-      /* ignore */
-    }
-    setReady(true)
+  // Loads profile + progress for a user. Deduped so getSession and the
+  // auth listener can't trigger two concurrent loads for the same user.
+  const handleUser = useCallback(async (u) => {
+    setUser(u)
+    if (loadedRef.current === u.id) return
+    loadedRef.current = u.id
+    const p = await store.ensureProfile(u.id, u.name)
+    const prog = await store.getProgress(u.id)
+    setProfile(p)
+    setProgress(prog)
   }, [])
 
-  const persistSession = (u) => {
-    if (u) localStorage.setItem(SESSION_KEY, JSON.stringify(u))
-    else localStorage.removeItem(SESSION_KEY)
-    setUser(u)
-  }
+  const clearSession = useCallback(() => {
+    loadedRef.current = null
+    setUser(null)
+    setProfile(null)
+    setProgress(new Set())
+  }, [])
 
-  const register = ({ name, email, password }) => {
-    const users = readUsers()
-    const exists = users.some((u) => u.email.toLowerCase() === email.toLowerCase())
-    if (exists) return { error: 'Diese E-Mail ist bereits registriert.' }
-    const newUser = { id: crypto.randomUUID(), name, email, password }
-    writeUsers([...users, newUser])
-    const safe = { id: newUser.id, name, email }
-    persistSession(safe)
-    return { user: safe }
-  }
+  useEffect(() => {
+    let active = true
+    let subscription
 
-  const login = ({ email, password }) => {
-    const users = readUsers()
-    const found = users.find(
-      (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password,
-    )
-    if (!found) return { error: 'E-Mail oder Passwort ist falsch.' }
-    const safe = { id: found.id, name: found.name, email: found.email }
-    persistSession(safe)
-    return { user: safe }
-  }
+    const init = async () => {
+      try {
+        if (mode === 'supabase') {
+          const { data } = await supabase.auth.getSession()
+          if (active && data.session?.user) {
+            await handleUser(mapUser(data.session.user))
+          }
+          const sub = supabase.auth.onAuthStateChange((_event, session) => {
+            if (!active) return
+            if (session?.user) handleUser(mapUser(session.user))
+            else clearSession()
+          })
+          subscription = sub.data.subscription
+        } else {
+          const loggedIn = localStorage.getItem(LOCAL_SESSION) === '1'
+          const existing = await store.getProfile('local')
+          if (active && loggedIn && existing) {
+            await handleUser({ id: 'local', email: existing.email || '', name: existing.name })
+          }
+        }
+      } catch (err) {
+        console.error('Auth init failed:', err)
+      } finally {
+        if (active) setReady(true)
+      }
+    }
 
-  const logout = () => persistSession(null)
+    init()
+    return () => {
+      active = false
+      subscription?.unsubscribe()
+    }
+  }, [mode, handleUser, clearSession])
 
-  const toggleLesson = (courseId, lessonIndex) => {
-    setProgress((prev) => {
-      const done = new Set(prev[courseId] || [])
-      if (done.has(lessonIndex)) done.delete(lessonIndex)
-      else done.add(lessonIndex)
-      const next = { ...prev, [courseId]: [...done] }
-      localStorage.setItem(PROGRESS_KEY, JSON.stringify(next))
-      return next
-    })
-  }
+  const signUp = useCallback(
+    async ({ name, email, password }) => {
+      if (mode === 'supabase') {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: { data: { name } },
+        })
+        if (error) return { error: error.message }
+        if (!data.session) return { info: 'Bitte bestätige deine E-Mail, um dich anzumelden.' }
+        return {}
+      }
+      await store.ensureProfile('local', name)
+      await store.updateProfile('local', { email, name })
+      localStorage.setItem(LOCAL_SESSION, '1')
+      await handleUser({ id: 'local', email, name })
+      return {}
+    },
+    [mode, handleUser],
+  )
+
+  const signIn = useCallback(
+    async ({ email, password }) => {
+      if (mode === 'supabase') {
+        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        if (error) return { error: error.message }
+        return {}
+      }
+      const existing = await store.getProfile('local')
+      const name = existing?.name || 'Mitglied'
+      await store.ensureProfile('local', name)
+      localStorage.setItem(LOCAL_SESSION, '1')
+      await handleUser({ id: 'local', email, name })
+      return {}
+    },
+    [mode, handleUser],
+  )
+
+  const signOut = useCallback(async () => {
+    if (mode === 'supabase') await supabase.auth.signOut()
+    else localStorage.removeItem(LOCAL_SESSION)
+    clearSession()
+  }, [mode, clearSession])
+
+  const completeLesson = useCallback(
+    async (lessonId, completed = true) => {
+      if (!user) return
+      const next = await store.setLessonComplete(user.id, lessonId, completed)
+      setProgress(new Set(next))
+      // Streak counts learning days, so it advances on completion – not login.
+      if (completed) await store.recordActivity(user.id)
+      const p = await store.getProfile(user.id)
+      if (p) setProfile(p)
+    },
+    [user],
+  )
+
+  const setLevel = useCallback(
+    async (levelId) => {
+      if (!user) return
+      const p = await store.updateProfile(user.id, { level: levelId })
+      if (p) setProfile(p)
+    },
+    [user],
+  )
+
+  const refreshLeaderboard = useCallback(async () => {
+    if (!user) return
+    setLeaderboard(await store.getLeaderboard(user.id))
+  }, [user])
 
   const value = useMemo(
-    () => ({ user, ready, register, login, logout, progress, toggleLesson }),
-    [user, ready, progress],
+    () => ({
+      mode,
+      ready,
+      user,
+      profile,
+      progress,
+      isComplete: (lessonId) => progress.has(lessonId),
+      points: profile?.points || 0,
+      streak: profile?.streak || 0,
+      needsOnboarding: Boolean(user && profile && !profile.level),
+      leaderboard,
+      signUp,
+      signIn,
+      signOut,
+      completeLesson,
+      setLevel,
+      refreshLeaderboard,
+    }),
+    [
+      mode,
+      ready,
+      user,
+      profile,
+      progress,
+      leaderboard,
+      signUp,
+      signIn,
+      signOut,
+      completeLesson,
+      setLevel,
+      refreshLeaderboard,
+    ],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
