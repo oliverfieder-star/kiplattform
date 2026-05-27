@@ -902,3 +902,25 @@ export const getNextLesson = (progressSet, levelId) => {
 // "komplett" vs "in Aufbau" labelling.
 export const isStageFull = (stage) =>
   stage.lessons.length > 0 && stage.lessons.every((l) => l.quiz?.length > 0)
+
+// Simple points-based level system (replaces a leaderboard). Points come from
+// completed lessons (POINTS_PER_LESSON each). Thresholds are tuned to the
+// current ~16-lesson catalogue (160 points = everything done).
+export const RANKS = [
+  { level: 1, title: 'KI-Einsteiger', emoji: '🌱', min: 0 },
+  { level: 2, title: 'KI-Anwender', emoji: '⚡', min: 30 },
+  { level: 3, title: 'KI-Praktiker', emoji: '🚀', min: 70 },
+  { level: 4, title: 'KI-Stratege', emoji: '🧠', min: 110 },
+  { level: 5, title: 'AI-Native', emoji: '🏆', min: 160 },
+]
+
+// Returns the current rank, the next rank (or null at max) and progress toward it.
+export const getRank = (points = 0) => {
+  let current = RANKS[0]
+  for (const r of RANKS) if (points >= r.min) current = r
+  const next = RANKS.find((r) => r.min > current.min) || null
+  const span = next ? next.min - current.min : 0
+  const into = points - current.min
+  const pct = next ? Math.min(100, Math.round((into / span) * 100)) : 100
+  return { current, next, pct, pointsToNext: next ? next.min - points : 0 }
+}

@@ -4,22 +4,29 @@ export default {
   theme: {
     extend: {
       colors: {
+        // C&C corporate palette (CI-Guide): primary blue #226094,
+        // deep navy #164861, bright accent #33CCFF.
         brand: {
-          50: '#eef2ff',
-          100: '#e0e7ff',
-          200: '#c7d2fe',
-          300: '#a5b4fc',
-          400: '#818cf8',
-          500: '#6366f1',
-          600: '#4f46e5',
-          700: '#4338ca',
-          800: '#3730a3',
-          900: '#312e81',
-          950: '#1e1b4b',
+          50: '#eef6fc',
+          100: '#d6eaf7',
+          200: '#aed5ee',
+          300: '#7bb8e0',
+          400: '#4f9fd4',
+          500: '#2f80b8',
+          600: '#226094',
+          700: '#1b4d78',
+          800: '#164861',
+          900: '#123a4f',
+          950: '#0c2838',
+        },
+        accent: {
+          300: '#7ddcff',
+          400: '#33ccff',
+          500: '#12b6ee',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['"Open Sans"', 'Arial', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       keyframes: {
         'fade-up': {

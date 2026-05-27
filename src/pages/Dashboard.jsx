@@ -1,7 +1,13 @@
-import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import { stages, getStageProgress, getNextLesson, totalLessons } from '../data/journey.js'
+import {
+  stages,
+  getStageProgress,
+  getNextLesson,
+  totalLessons,
+  getRank,
+  RANKS,
+} from '../data/journey.js'
 
 const BADGES = [
   { id: 'first', label: 'Erste Lektion', emoji: '🌱', test: (s) => s.done >= 1 },
@@ -13,14 +19,10 @@ const BADGES = [
 ]
 
 export default function Dashboard() {
-  const { user, profile, progress, points, streak, mode, leaderboard, refreshLeaderboard } =
-    useAuth()
-
-  useEffect(() => {
-    refreshLeaderboard()
-  }, [refreshLeaderboard])
+  const { profile, progress, points, streak } = useAuth()
 
   const done = progress.size
+  const rank = getRank(points)
   const next = getNextLesson(progress, profile?.level)
   const promptingDone = stages
     .find((s) => s.id === 'prompting')
@@ -46,8 +48,41 @@ export default function Dashboard() {
         )}
       </div>
 
+      {/* Level */}
+      <div className="card mt-8 overflow-hidden p-6">
+        <div className="flex items-center gap-4">
+          <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand-500/15 text-3xl">
+            {rank.current.emoji}
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm text-brand-300">Level {rank.current.level}</p>
+            <h2 className="text-xl font-extrabold text-white">{rank.current.title}</h2>
+          </div>
+          {rank.next && (
+            <span className="hidden text-right text-sm text-slate-400 sm:block">
+              noch {rank.pointsToNext} P bis
+              <br />
+              <span className="font-semibold text-slate-200">{rank.next.title}</span>
+            </span>
+          )}
+        </div>
+        <div className="mt-4">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-brand-500 to-accent-400 transition-all"
+              style={{ width: `${rank.pct}%` }}
+            />
+          </div>
+          <p className="mt-2 text-xs text-slate-500">
+            {rank.next
+              ? `${points} Punkte · noch ${rank.pointsToNext} bis Level ${rank.next.level} (${rank.next.title})`
+              : `Höchstes Level erreicht – ${points} Punkte. Respekt! 🏆`}
+          </p>
+        </div>
+      </div>
+
       {/* Stats */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-3">
+      <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <div className="card p-6">
           <div className="text-3xl font-extrabold text-white">{points}</div>
           <div className="mt-1 text-sm text-slate-400">Punkte</div>
@@ -154,6 +189,39 @@ export default function Dashboard() {
             </div>
           </div>
 
+          {/* Levels overview */}
+          <div>
+            <h2 className="text-lg font-bold text-white">Deine Level</h2>
+            <div className="mt-4 space-y-2">
+              {RANKS.map((r) => {
+                const reached = points >= r.min
+                const isCurrent = r.level === rank.current.level
+                return (
+                  <div
+                    key={r.level}
+                    className={`flex items-center gap-3 rounded-xl border px-4 py-2.5 ${
+                      isCurrent
+                        ? 'border-accent-400/50 bg-accent-400/10'
+                        : reached
+                          ? 'border-white/10 bg-white/5'
+                          : 'border-white/10 bg-white/5 opacity-50'
+                    }`}
+                  >
+                    <span className="text-xl">{r.emoji}</span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-white">
+                      Lvl {r.level} · {r.title}
+                    </span>
+                    {reached ? (
+                      <span className="text-xs font-semibold text-accent-400">erreicht</span>
+                    ) : (
+                      <span className="text-xs text-slate-500">{r.min} P</span>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
           {/* Streak explainer */}
           <div className="card p-5">
             <p className="font-semibold text-white">🔥 Dein Streak</p>
@@ -162,32 +230,6 @@ export default function Dashboard() {
               Streak wachsen zu lassen. Pausierst du einen Tag, beginnt er neu bei 1.
             </p>
           </div>
-
-          {/* Leaderboard – only meaningful with real accounts */}
-          {mode === 'supabase' && (
-            <div>
-              <h2 className="text-lg font-bold text-white">Bestenliste</h2>
-              <div className="mt-4 space-y-2">
-                {leaderboard.length === 0 && (
-                  <p className="text-sm text-slate-500">Noch keine Daten.</p>
-                )}
-                {leaderboard.map((p, i) => (
-                  <div
-                    key={p.id || i}
-                    className={`flex items-center gap-3 rounded-xl border px-4 py-2.5 ${
-                      p.isYou ? 'border-brand-400/40 bg-brand-500/10' : 'border-white/10 bg-white/5'
-                    }`}
-                  >
-                    <span className="w-5 text-sm font-bold text-slate-400">{i + 1}</span>
-                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-white">
-                      {p.name} {p.isYou && <span className="text-brand-300">(du)</span>}
-                    </span>
-                    <span className="text-sm font-semibold text-slate-300">{p.points} P</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>

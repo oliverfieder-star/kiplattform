@@ -2,7 +2,7 @@ import Logo from './Logo.jsx'
 
 export default function Footer() {
   return (
-    <footer id="kontakt" className="border-t border-white/10 bg-slate-950">
+    <footer id="kontakt" className="border-t border-white/10 bg-brand-950">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid gap-10 md:grid-cols-4">
           <div className="md:col-span-2">

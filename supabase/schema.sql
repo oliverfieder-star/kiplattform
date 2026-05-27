@@ -24,11 +24,11 @@ create table if not exists public.lesson_progress (
 alter table public.profiles enable row level security;
 alter table public.lesson_progress enable row level security;
 
--- Profile: jede:r authentifizierte Nutzer:in darf alle Profile LESEN
--- (für die Bestenliste), aber nur das eigene schreiben/ändern.
+-- Profile: jede:r darf nur das EIGENE Profil lesen und ändern.
 drop policy if exists "profiles_select_all" on public.profiles;
-create policy "profiles_select_all" on public.profiles
-  for select to authenticated using (true);
+drop policy if exists "profiles_select_self" on public.profiles;
+create policy "profiles_select_self" on public.profiles
+  for select to authenticated using (auth.uid() = id);
 
 drop policy if exists "profiles_insert_self" on public.profiles;
 create policy "profiles_insert_self" on public.profiles

@@ -34,7 +34,7 @@ export default function Landing() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-[0.15]" />
         <div className="absolute -left-40 top-0 h-96 w-96 rounded-full bg-brand-600/30 blur-[120px]" />
-        <div className="absolute -right-20 top-40 h-96 w-96 rounded-full bg-fuchsia-600/20 blur-[120px]" />
+        <div className="absolute -right-20 top-40 h-96 w-96 rounded-full bg-accent-400/15 blur-[120px]" />
 
         <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-20 sm:px-6 sm:pt-28">
           <div className="mx-auto max-w-3xl text-center">
@@ -44,7 +44,7 @@ export default function Landing() {
             </span>
             <h1 className="animate-fade-up mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight text-white sm:text-6xl">
               Werde{' '}
-              <span className="bg-gradient-to-r from-brand-300 via-fuchsia-300 to-brand-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-accent-400 via-brand-300 to-accent-400 bg-clip-text text-transparent">
                 AI-native
               </span>
               {' '}– dein Vorsprung für den Berufseinstieg
@@ -134,7 +134,7 @@ export default function Landing() {
 
       {/* CTA */}
       <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
-        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-700 via-brand-600 to-fuchsia-700 p-10 text-center sm:p-16">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-brand-800 via-brand-600 to-brand-500 p-10 text-center sm:p-16">
           <div className="absolute inset-0 bg-grid opacity-20" />
           <div className="relative">
             <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">

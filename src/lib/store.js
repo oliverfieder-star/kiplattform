@@ -77,10 +77,6 @@ const local = {
     writeLocal(data)
     return data.profile
   },
-  async getLeaderboard() {
-    const data = readLocal()
-    return data.profile ? [{ ...data.profile, isYou: true }] : []
-  },
 }
 
 /* ---------- Supabase mode ---------- */
@@ -143,15 +139,6 @@ const remote = {
     const streak = nextStreak(profile.last_active, profile.streak)
     return this.updateProfile(userId, { streak, last_active: todayStr() })
   },
-  async getLeaderboard(userId) {
-    const { data } = await supabase
-      .from('profiles')
-      .select('id, name, points, streak')
-      .order('points', { ascending: false })
-      .order('streak', { ascending: false })
-      .limit(20)
-    return (data || []).map((p) => ({ ...p, isYou: p.id === userId }))
-  },
 }
 
 /* ---------- Unified API ---------- */
@@ -170,6 +157,4 @@ export const store = {
       : local.setLessonComplete(lessonId, completed),
   recordActivity: (userId) =>
     isSupabaseConfigured ? remote.recordActivity(userId) : local.recordActivity(),
-  getLeaderboard: (userId) =>
-    isSupabaseConfigured ? remote.getLeaderboard(userId) : local.getLeaderboard(),
 }

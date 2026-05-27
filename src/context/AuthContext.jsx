@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [progress, setProgress] = useState(new Set())
-  const [leaderboard, setLeaderboard] = useState([])
   const [ready, setReady] = useState(false)
   const loadedRef = useRef(null)
 
@@ -143,11 +142,6 @@ export function AuthProvider({ children }) {
     [user],
   )
 
-  const refreshLeaderboard = useCallback(async () => {
-    if (!user) return
-    setLeaderboard(await store.getLeaderboard(user.id))
-  }, [user])
-
   const value = useMemo(
     () => ({
       mode,
@@ -159,28 +153,13 @@ export function AuthProvider({ children }) {
       points: profile?.points || 0,
       streak: profile?.streak || 0,
       needsOnboarding: Boolean(user && profile && !profile.level),
-      leaderboard,
       signUp,
       signIn,
       signOut,
       completeLesson,
       setLevel,
-      refreshLeaderboard,
     }),
-    [
-      mode,
-      ready,
-      user,
-      profile,
-      progress,
-      leaderboard,
-      signUp,
-      signIn,
-      signOut,
-      completeLesson,
-      setLevel,
-      refreshLeaderboard,
-    ],
+    [mode, ready, user, profile, progress, signUp, signIn, signOut, completeLesson, setLevel],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
