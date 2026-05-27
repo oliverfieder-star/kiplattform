@@ -49,10 +49,53 @@ export const stages = [
         tools: ['Claude', 'ChatGPT'],
         resources: [
           {
+            title: 'But what is a GPT? Visual intro to transformers',
+            type: 'video',
+            provider: '3Blue1Brown',
+            duration: '27 Min',
+            url: 'https://www.youtube.com/watch?v=wjZofJX0v4M',
+          },
+          {
             title: 'Intro to Claude – Anthropic Docs',
             type: 'doc',
             provider: 'Anthropic',
             url: 'https://docs.anthropic.com/en/docs/welcome',
+          },
+        ],
+        exercise: {
+          title: 'Halluzinationen selbst aufspüren',
+          prompt:
+            'Bitte Claude oder ChatGPT, ein Konzept aus deinem Studium zu erklären. Frage anschließend: „Wo könntest du dir bei dieser Antwort unsicher sein?" Prüfe eine konkrete Faktenaussage gegen eine vertrauenswürdige Quelle.',
+          criteria: [
+            'Du kannst das mentale Modell in eigenen Worten erklären',
+            'Du hast mindestens eine Unsicherheit/Grenze identifiziert',
+            'Du hast eine Faktenaussage gegengeprüft',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Was beschreibt am besten, wie ein Sprachmodell Text erzeugt?',
+            options: [
+              'Es schlägt Wort für Wort das wahrscheinlichste nächste Token vor',
+              'Es schlägt die Antwort in einer festen Datenbank nach',
+              'Es denkt exakt wie ein Mensch',
+              'Es kopiert ganze Webseiten',
+            ],
+            answer: 0,
+            explanation:
+              'Sprachmodelle sagen auf Basis von Wahrscheinlichkeiten das nächste Token voraus – kein Datenbank-Lookup, kein menschliches Denken.',
+          },
+          {
+            question: 'Warum „halluzinieren" Modelle gelegentlich?',
+            options: [
+              'Weil sie absichtlich lügen',
+              'Weil sie plausibel klingende, aber nicht verifizierte Vorhersagen treffen',
+              'Weil das Internet zu langsam ist',
+              'Weil die Frage zu höflich war',
+            ],
+            answer: 1,
+            explanation:
+              'Modelle erzeugen plausibel klingenden Text – das kann auch dann passieren, wenn die Aussage faktisch falsch ist. Deshalb: gegenprüfen.',
           },
         ],
       },
@@ -69,6 +112,36 @@ export const stages = [
             type: 'course',
             provider: 'Anthropic',
             url: 'https://anthropic.skilljar.com/',
+          },
+          {
+            title: 'Large Language Models explained briefly',
+            type: 'article',
+            provider: '3Blue1Brown',
+            url: 'https://www.3blue1brown.com/lessons/gpt',
+          },
+        ],
+        exercise: {
+          title: 'Modelle im Direktvergleich',
+          prompt:
+            'Stelle dieselbe Aufgabe (z. B. „Erstelle eine Gliederung für eine Präsentation über X") an Claude und ChatGPT, optional zusätzlich an Gemini. Vergleiche Stil, Struktur und Brauchbarkeit der Ergebnisse.',
+          criteria: [
+            'Gleiche Aufgabe in mindestens zwei Tools getestet',
+            'Du kannst benennen, welches Tool wofür stärker war',
+            'Du hast eine Empfehlung für deinen eigenen Use-Case',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Welche Aussage trifft für die KI-Landschaft 2026 zu?',
+            options: [
+              'Es gibt genau ein nützliches Modell für alles',
+              'Verschiedene Modelle haben unterschiedliche Stärken – Tool-Wahl lohnt sich',
+              'Alle Modelle liefern identische Ergebnisse',
+              'Bezahlmodelle sind immer die einzige Option',
+            ],
+            answer: 1,
+            explanation:
+              'Modelle unterscheiden sich in Stärken, Stil und Funktionsumfang. Wer vergleicht, wählt bewusster.',
           },
         ],
       },
@@ -297,14 +370,44 @@ export const stages = [
         title: 'Recherchieren & zusammenfassen mit Quellen',
         duration: '15 Min',
         context:
-          'Lange Texte, PDFs und Vorlesungen in nutzbares Wissen verwandeln – und warum Quellenangaben und Gegenprüfung Pflicht sind.',
+          'Lange Texte, PDFs und Vorlesungen in nutzbares Wissen verwandeln. NotebookLM antwortet ausschließlich aus deinen hochgeladenen Quellen – ideal für belegbare Zusammenfassungen. Wichtig bleibt: Quellen prüfen und gegenlesen.',
         tools: ['Claude', 'ChatGPT', 'NotebookLM'],
         resources: [
           {
-            title: 'Anthropic Academy (kostenlose Kurse)',
-            type: 'course',
-            provider: 'Anthropic',
-            url: 'https://anthropic.skilljar.com/',
+            title: 'Learn about NotebookLM',
+            type: 'doc',
+            provider: 'Google',
+            url: 'https://support.google.com/notebooklm/answer/16164461',
+          },
+          {
+            title: 'Create a notebook in NotebookLM',
+            type: 'doc',
+            provider: 'Google',
+            url: 'https://support.google.com/notebooklm/answer/16206563',
+          },
+        ],
+        exercise: {
+          title: 'Belegbare Zusammenfassung erstellen',
+          prompt:
+            'Lade ein Skript oder einen Fachartikel in NotebookLM (oder als Datei in Claude). Lass eine strukturierte Zusammenfassung mit Quellenverweisen erstellen und prüfe zwei Kernaussagen gegen das Original.',
+          criteria: [
+            'Quelle hochgeladen und genutzt',
+            'Zusammenfassung enthält nachvollziehbare Belege',
+            'Zwei Aussagen gegen das Original geprüft',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Warum solltest du KI-Zusammenfassungen gegenprüfen?',
+            options: [
+              'Weil KI nie Quellen nennt',
+              'Weil auch plausible Aussagen faktisch falsch sein können',
+              'Das ist nicht nötig',
+              'Nur bei Bildern',
+            ],
+            answer: 1,
+            explanation:
+              'Selbst quellenbasierte Tools können Aussagen verzerren. Gegenprüfen sichert wissenschaftliche Sauberkeit.',
           },
         ],
       },
@@ -313,9 +416,46 @@ export const stages = [
         title: 'Datenschutz & verantwortungsvoller Umgang',
         duration: '12 Min',
         context:
-          'Welche Daten gehören nicht in ein Chatfenster? Grundregeln für den Umgang mit personenbezogenen und vertraulichen (Kunden-)Daten.',
+          'Welche Daten gehören nicht in ein Chatfenster? Grundregeln für personenbezogene und vertrauliche (Kunden-)Daten – und warum Enterprise-Tarife anders behandelt werden als kostenlose Accounts.',
         tools: ['Claude', 'ChatGPT'],
-        resources: [],
+        resources: [
+          {
+            title: 'Managing data, sharing & privacy in ChatGPT Business',
+            type: 'doc',
+            provider: 'OpenAI',
+            url: 'https://help.openai.com/en/articles/8798634-managing-data-sharing-and-privacy-in-chatgpt-business',
+          },
+          {
+            title: 'Enterprise privacy at OpenAI',
+            type: 'article',
+            provider: 'OpenAI',
+            url: 'https://openai.com/enterprise-privacy/',
+          },
+        ],
+        exercise: {
+          title: 'Deine „Was darf rein?"-Checkliste',
+          prompt:
+            'Erstelle eine kurze Checkliste für deinen Studien- und Vereinsalltag: Welche Datenkategorien dürfen in ein KI-Chatfenster, welche niemals? Begründe jede Tabu-Kategorie in einem Satz.',
+          criteria: [
+            'Mindestens drei Tabu-Kategorien (z. B. PII, Kundendaten, Zugangsdaten)',
+            'Jede Kategorie kurz begründet',
+            'Du kennst den Unterschied zwischen Free- und Enterprise-Datennutzung',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Was gehört NICHT in ein gewöhnliches Chatfenster?',
+            options: [
+              'Allgemeine Lernfragen',
+              'Öffentlich verfügbare Texte',
+              'Personenbezogene oder vertrauliche (Kunden-)Daten',
+              'Beispielhafte, anonymisierte Fälle',
+            ],
+            answer: 2,
+            explanation:
+              'PII und vertrauliche Daten gehören nicht in Standard-Chats. Anonymisieren oder Enterprise-Tarife mit Datenschutz nutzen.',
+          },
+        ],
       },
     ],
   },
@@ -333,30 +473,90 @@ export const stages = [
         title: 'Claude Projects & ChatGPT Projects nutzen',
         duration: '18 Min',
         context:
-          'Kontext einmal anlegen, dauerhaft nutzen: Projekte bündeln Dateien, Anweisungen und Chats zu einem Thema.',
+          'Kontext einmal anlegen, dauerhaft nutzen: Projekte bündeln Dateien, Anweisungen und Chats zu einem Thema. So musst du Hintergrund nicht in jedem Chat neu erklären.',
         tools: ['Claude', 'ChatGPT'],
         resources: [
           {
-            title: 'Anthropic Academy (kostenlose Kurse)',
-            type: 'course',
+            title: 'How can I create and manage projects? (Claude)',
+            type: 'doc',
             provider: 'Anthropic',
-            url: 'https://anthropic.skilljar.com/',
+            url: 'https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects',
+          },
+          {
+            title: 'Projects in ChatGPT',
+            type: 'doc',
+            provider: 'OpenAI',
+            url: 'https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt',
+          },
+        ],
+        exercise: {
+          title: 'Ein Projekt für ein wiederkehrendes Thema',
+          prompt:
+            'Lege in Claude ODER ChatGPT ein Projekt für ein Thema an, das dich länger begleitet (z. B. eine Hausarbeit oder ein Vereinsprojekt). Hinterlege Custom Instructions und mindestens eine Datei. Führe darin einen ersten Chat.',
+          criteria: [
+            'Projekt erstellt und benannt',
+            'Custom Instructions / Projekt-Anweisungen gesetzt',
+            'Mindestens eine Datei oder Kontext hinterlegt',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Wozu dienen Projects in Claude/ChatGPT?',
+            options: [
+              'Nur zur Bildgenerierung',
+              'Sie bündeln wiederverwendbaren Kontext über mehrere Chats hinweg',
+              'Sie ersetzen das Modell',
+              'Sie sind nur für Entwickler:innen',
+            ],
+            answer: 1,
+            explanation:
+              'Projekte halten Dateien, Anweisungen und Chats zusammen – du musst Hintergrund nicht ständig wiederholen.',
           },
         ],
       },
       {
         id: 'power-2',
-        title: 'Agent Skills verstehen',
+        title: 'Agent Skills verstehen & nutzen',
         duration: '16 Min',
         context:
-          'Skills erweitern Claude um wiederverwendbare Fähigkeiten. Was das ist und wann es sich lohnt.',
+          'Skills sind organisierte Anleitungen, Skripte und Ressourcen, die Claude dynamisch laden kann, um bestimmte Aufgaben besser zu lösen (z. B. PowerPoint, Excel, Word, PDF). Du lernst, wann sie sich lohnen.',
         tools: ['Claude'],
         resources: [
           {
-            title: 'Claude Code & Skills – Dokumentation',
+            title: 'Agent Skills – Overview',
             type: 'doc',
             provider: 'Anthropic',
-            url: 'https://code.claude.com/docs/en/overview',
+            url: 'https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview',
+          },
+          {
+            title: 'Equipping agents for the real world with Agent Skills',
+            type: 'article',
+            provider: 'Anthropic',
+            url: 'https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills',
+          },
+        ],
+        exercise: {
+          title: 'Eine vorgefertigte Skill ausprobieren',
+          prompt:
+            'Nutze in Claude eine vorgefertigte Skill (z. B. zum Erstellen eines Word- oder PowerPoint-Dokuments). Beschreibe, was die Skill automatisiert hat und für welchen eigenen wiederkehrenden Anwendungsfall sich eine Skill lohnen würde.',
+          criteria: [
+            'Eine Skill genutzt',
+            'Ergebnis und Mehrwert beschrieben',
+            'Eine eigene Idee für einen Skill-Use-Case formuliert',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Was sind Agent Skills?',
+            options: [
+              'Ein anderes Sprachmodell',
+              'Organisierte Anleitungen/Skripte, die ein Agent dynamisch laden kann',
+              'Ein kostenpflichtiges Abo',
+              'Eine Suchmaschine',
+            ],
+            answer: 1,
+            explanation:
+              'Skills bündeln Instruktionen, Skripte und Ressourcen, die der Agent bei Bedarf lädt, um Aufgaben besser zu erledigen.',
           },
         ],
       },
@@ -376,14 +576,44 @@ export const stages = [
         title: 'Vibe-Coding: Apps bauen ohne Code',
         duration: '20 Min',
         context:
-          'Mit Tools wie Lovable und Claude beschreibst du, was du brauchst, und bekommst eine lauffähige App. Möglichkeiten und Grenzen.',
+          'Beim Vibe-Coding beschreibst du in natürlicher Sprache, was du brauchst, und die KI baut es. Mit Lovable entstehen so in Minuten lauffähige Prototypen – stark für MVPs und Landingpages, mit klaren Grenzen bei komplexer Logik.',
         tools: ['Lovable', 'Claude'],
         resources: [
           {
-            title: 'Lovable',
+            title: 'Welcome to Lovable – Dokumentation',
+            type: 'doc',
+            provider: 'Lovable',
+            url: 'https://docs.lovable.dev/introduction/welcome',
+          },
+          {
+            title: 'Lovable – AI App Builder',
             type: 'tool',
             provider: 'Lovable',
             url: 'https://lovable.dev/',
+          },
+        ],
+        exercise: {
+          title: 'Dein erster Prototyp in 30 Minuten',
+          prompt:
+            'Baue mit Lovable einen einfachen Prototyp (z. B. eine Landingpage für ein Vereinsprojekt). Iteriere mindestens einmal per Prompt und notiere eine konkrete Grenze des Vibe-Coding-Ansatzes.',
+          criteria: [
+            'Ein lauffähiger Prototyp entstanden',
+            'Mindestens eine Iteration per Prompt',
+            'Eine Grenze des Ansatzes benannt',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Was bedeutet „Vibe-Coding"?',
+            options: [
+              'Code Zeile für Zeile selbst schreiben',
+              'Eine App per natürlicher Sprache beschreiben und von KI bauen lassen',
+              'Nur Designs erstellen',
+              'Ausschließlich bestehende Apps kopieren',
+            ],
+            answer: 1,
+            explanation:
+              'Statt klassischem Programmieren beschreibst du das Ziel; die KI generiert und iteriert den Code.',
           },
         ],
       },
@@ -392,14 +622,44 @@ export const stages = [
         title: 'Einstieg in Claude Code',
         duration: '25 Min',
         context:
-          'Der agentische Coding-Assistent im Terminal/IDE. Was er kann und wie der erste Einstieg gelingt.',
+          'Claude Code ist ein agentischer Coding-Assistent im Terminal/IDE: Er versteht ganze Codebasen, schlägt Änderungen vor und fragt vor jeder Dateiänderung um Erlaubnis. Wir folgen dem offiziellen Quickstart.',
         tools: ['Claude Code'],
         resources: [
+          {
+            title: 'Claude Code – Quickstart',
+            type: 'doc',
+            provider: 'Anthropic',
+            url: 'https://code.claude.com/docs/en/quickstart',
+          },
           {
             title: 'Claude Code – Overview',
             type: 'doc',
             provider: 'Anthropic',
             url: 'https://code.claude.com/docs/en/overview',
+          },
+        ],
+        exercise: {
+          title: 'Erste Aufgabe mit Claude Code',
+          prompt:
+            'Folge dem Quickstart und lass Claude Code eine bestehende (oder neue) kleine Codebasis zusammenfassen oder eine kleine Änderung vornehmen. Achte bewusst auf den Genehmigungs-Flow vor Dateiänderungen.',
+          criteria: [
+            'Claude Code gestartet',
+            'Eine Aufgabe (Zusammenfassung oder Änderung) ausgeführt',
+            'Du verstehst, wie der Genehmigungs-Flow funktioniert',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Was zeichnet Claude Code aus?',
+            options: [
+              'Es ist nur ein Autocomplete im Editor',
+              'Ein agentisches Tool, das Codebasen versteht und Aufgaben ausführt – mit Genehmigung',
+              'Es funktioniert nur mit Python',
+              'Es ersetzt das Terminal vollständig',
+            ],
+            answer: 1,
+            explanation:
+              'Claude Code arbeitet agentisch über ganze Projekte und fragt vor Änderungen um Erlaubnis.',
           },
         ],
       },
@@ -417,16 +677,86 @@ export const stages = [
       {
         id: 'agents-1',
         title: 'Was sind KI-Agenten?',
-        duration: '15 Min',
+        duration: '18 Min',
         context:
-          'Vom einzelnen Prompt zum eigenständig handelnden System mit Werkzeugen. Konzepte und realistische Erwartungen.',
+          'Vom einzelnen Prompt zum eigenständig handelnden System mit Werkzeugen. Anthropics Leitfaden unterscheidet klar zwischen festen Workflows und echten Agenten – und nennt realistische Einsatzgrenzen.',
         tools: ['Claude'],
         resources: [
+          {
+            title: 'Building Effective Agents',
+            type: 'article',
+            provider: 'Anthropic',
+            url: 'https://www.anthropic.com/research/building-effective-agents',
+          },
           {
             title: 'Anthropic Academy (kostenlose Kurse)',
             type: 'course',
             provider: 'Anthropic',
             url: 'https://anthropic.skilljar.com/',
+          },
+        ],
+        exercise: {
+          title: 'Einen einfachen Agenten-Workflow skizzieren',
+          prompt:
+            'Lies „Building Effective Agents" und skizziere für eine Vereinsaufgabe (z. B. Bewerbungen vorsortieren) einen einfachen Agenten-Workflow mit mindestens zwei Schritten. Markiere, wo externe Werkzeuge nötig wären.',
+          criteria: [
+            'Workflow mit mindestens zwei Schritten',
+            'Benannt, wo Werkzeuge/Tools nötig sind',
+            'Realistische Grenzen des Ansatzes benannt',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Was unterscheidet einen Agenten von einem einzelnen Prompt?',
+            options: [
+              'Nichts, es ist dasselbe',
+              'Ein Agent handelt mehrstufig mit Werkzeugen Richtung eines Ziels',
+              'Ein Agent ist nur ein längerer Prompt',
+              'Ein Agent funktioniert offline',
+            ],
+            answer: 1,
+            explanation:
+              'Agenten planen und handeln mehrstufig, nutzen Werkzeuge und steuern selbst auf ein Ziel zu.',
+          },
+        ],
+      },
+      {
+        id: 'agents-2',
+        title: 'Workflows automatisieren',
+        duration: '16 Min',
+        context:
+          'Nicht jede Aufgabe braucht einen autonomen Agenten. Oft ist ein fest verketteter Workflow zuverlässiger und günstiger. Du lernst, wann was passt – und wie du eine wiederkehrende Aufgabe zerlegst.',
+        tools: ['Claude', 'ChatGPT'],
+        resources: [
+          {
+            title: 'Building Effective Agents (Workflows vs. Agents)',
+            type: 'article',
+            provider: 'Anthropic',
+            url: 'https://www.anthropic.com/research/building-effective-agents',
+          },
+        ],
+        exercise: {
+          title: 'Eine Aufgabe in einen Workflow zerlegen',
+          prompt:
+            'Wähle eine wiederkehrende Aufgabe aus deinem Alltag und zerlege sie in klar definierte, automatisierbare Schritte. Entscheide begründet: fester Workflow oder autonomer Agent?',
+          criteria: [
+            'Aufgabe in nummerierte Schritte zerlegt',
+            'Begründete Entscheidung Workflow vs. Agent',
+            'Mögliche Fehlerquellen identifiziert',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Wann ist ein fester Workflow besser als ein autonomer Agent?',
+            options: [
+              'Niemals',
+              'Bei klar definierten, wiederholbaren Schritten',
+              'Nur bei kreativen Aufgaben',
+              'Nur wenn kein Internet da ist',
+            ],
+            answer: 1,
+            explanation:
+              'Für vorhersehbare, wiederholbare Abläufe sind feste Workflows oft zuverlässiger und günstiger als autonome Agenten.',
           },
         ],
       },
@@ -446,9 +776,86 @@ export const stages = [
         title: 'KI-Use-Cases im Consulting',
         duration: '18 Min',
         context:
-          'Wo KI in Projekten echten Mehrwert schafft – und wo der Hype an der Realität scheitert.',
+          'Wo KI in Projekten echten Mehrwert schafft – und wo der Hype an der Realität scheitert. Gute Use-Cases sind wiederkehrend, datennah und haben einen messbaren Nutzen.',
         tools: ['Claude', 'ChatGPT'],
-        resources: [],
+        resources: [
+          {
+            title: 'Anthropic Academy (kostenlose Kurse)',
+            type: 'course',
+            provider: 'Anthropic',
+            url: 'https://anthropic.skilljar.com/',
+          },
+        ],
+        exercise: {
+          title: 'Drei Use-Cases für einen echten Case',
+          prompt:
+            'Wähle einen (fiktiven oder realen) Beratungs-Case und liste drei konkrete KI-Use-Cases mit jeweils erwartetem Mehrwert und nötigen Daten. Markiere den vielversprechendsten.',
+          criteria: [
+            'Drei konkrete Use-Cases',
+            'Je erwarteter Mehrwert benannt',
+            'Priorisierung mit Begründung',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Woran erkennt man einen guten KI-Use-Case?',
+            options: [
+              'Er ist gerade im Hype',
+              'Er ist wiederkehrend, datennah und hat klaren, messbaren Mehrwert',
+              'Er ist möglichst kompliziert',
+              'Er braucht keine Daten',
+            ],
+            answer: 1,
+            explanation:
+              'Tragfähige Use-Cases sind wiederholbar, gut mit Daten unterfüttert und schaffen messbaren Nutzen.',
+          },
+        ],
+      },
+      {
+        id: 'consulting-2',
+        title: 'Regulatorik: EU AI Act Grundlagen',
+        duration: '16 Min',
+        context:
+          'Der EU AI Act (Verordnung 2024/1689) folgt einem risikobasierten Ansatz: von verbotenen Praktiken über Hochrisiko-Anwendungen bis zu Transparenzpflichten. Beratende sollten die Grundzüge kennen.',
+        tools: ['Claude'],
+        resources: [
+          {
+            title: 'The AI Act Explorer',
+            type: 'doc',
+            provider: 'EU AI Act',
+            url: 'https://artificialintelligenceact.eu/ai-act-explorer/',
+          },
+          {
+            title: 'Official AI Act Explorer (Europäische Kommission)',
+            type: 'doc',
+            provider: 'Europäische Kommission',
+            url: 'https://ai-act-service-desk.ec.europa.eu/en/ai-act-explorer',
+          },
+        ],
+        exercise: {
+          title: 'Risikoklassen zuordnen',
+          prompt:
+            'Wähle drei KI-Anwendungen (z. B. Chatbot, Lebenslauf-Screening, Spam-Filter) und ordne sie mithilfe des AI Act Explorers den passenden Risikoklassen zu. Begründe deine Einordnung kurz.',
+          criteria: [
+            'Drei Anwendungen einer Risikoklasse zugeordnet',
+            'Jede Einordnung kurz begründet',
+            'Du kennst den Unterschied zwischen verboten, Hochrisiko und begrenztem Risiko',
+          ],
+        },
+        quiz: [
+          {
+            question: 'Worauf basiert der EU AI Act?',
+            options: [
+              'Auf einem generellen Verbot aller KI',
+              'Auf einem risikobasierten Ansatz mit abgestuften Pflichten',
+              'Ausschließlich auf Datenschutz',
+              'Auf freiwilliger Selbstverpflichtung ohne Regeln',
+            ],
+            answer: 1,
+            explanation:
+              'Der AI Act stuft Anwendungen nach Risiko ein (verboten, hochriskant, begrenzt, minimal) und knüpft daran unterschiedliche Pflichten.',
+          },
+        ],
       },
     ],
   },
