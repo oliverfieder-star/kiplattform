@@ -14,6 +14,9 @@ import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import NotFound from './pages/NotFound.jsx'
+import HandwerkLanding from './handwerk/Landing.jsx'
+import HandwerkLerntour from './handwerk/Lerntour.jsx'
+import HandwerkLesson from './handwerk/Lesson.jsx'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -46,10 +49,15 @@ function OnboardingGate({ children }) {
 }
 
 export default function App() {
+  const { pathname } = useLocation()
+  // The "KI-Werkstatt" prototype variant ships its own light-theme layout,
+  // so the global C&C navbar/footer are suppressed underneath it.
+  const isHandwerk = pathname.startsWith('/handwerk')
+
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
-      <Navbar />
+      {!isHandwerk && <Navbar />}
       <main className="flex-1">
         <OnboardingGate>
           <Routes>
@@ -83,11 +91,17 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
+
+            {/* Handwerk variant prototype */}
+            <Route path="/handwerk" element={<HandwerkLanding />} />
+            <Route path="/handwerk/lerntour" element={<HandwerkLerntour />} />
+            <Route path="/handwerk/lektion/:lessonId" element={<HandwerkLesson />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </OnboardingGate>
       </main>
-      <Footer />
+      {!isHandwerk && <Footer />}
     </div>
   )
 }

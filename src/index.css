@@ -37,6 +37,20 @@
   .label {
     @apply mb-1.5 block text-sm font-medium text-slate-300;
   }
+
+  /* "KI-Werkstatt" (Handwerk variant) – light-theme primitives. */
+  .hw-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  .hw-btn-primary {
+    @apply hw-btn bg-orange-500 text-white shadow-md shadow-orange-500/25 hover:bg-orange-600 hover:-translate-y-0.5;
+  }
+  .hw-btn-ghost {
+    @apply hw-btn border border-slate-200 bg-white text-slate-900 hover:bg-slate-50;
+  }
+  .hw-card {
+    @apply rounded-2xl border border-slate-200 bg-white shadow-sm;
+  }
 }
 
 .bg-grid {

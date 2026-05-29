@@ -33,7 +33,13 @@ export default function Footer() {
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 text-sm text-slate-500 sm:flex-row">
           <p>© {new Date().getFullYear()} C&amp;C AI Academy. Alle Rechte vorbehalten.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center gap-6">
+            <a
+              href="#/handwerk"
+              className="rounded-full border border-white/10 px-3 py-1 text-xs font-medium text-slate-400 hover:border-white/20 hover:text-slate-200"
+            >
+              Prototyp: Variante für Handwerksbetriebe →
+            </a>
             <a href="#" className="hover:text-slate-300">Impressum</a>
             <a href="#" className="hover:text-slate-300">Datenschutz</a>
           </div>
