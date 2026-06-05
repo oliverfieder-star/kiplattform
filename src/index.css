@@ -59,3 +59,94 @@
     linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
+
+/* Consulting page primitives */
+.bg-grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(125,220,255,0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(125,220,255,0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
+
+.text-gradient-cyan {
+  background-image: linear-gradient(120deg, #7ddcff 0%, #33ccff 35%, #818cf8 70%, #33ccff 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
+.reveal-delay-5 { transition-delay: 0.40s; }
+.reveal-delay-6 { transition-delay: 0.48s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Glow border on hover */
+.glow-border {
+  position: relative;
+  isolation: isolate;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(125,220,255,0) 0%, rgba(51,204,255,0.5) 50%, rgba(125,220,255,0) 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+/* Shimmering "AI" outline on module numbers */
+.shimmer-text {
+  background-image: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(125,220,255,0.65) 50%, rgba(255,255,255,0.1) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Conic spinner for hero accent */
+.conic-ring {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(51,204,255,0.55) 90deg, transparent 180deg, rgba(129,140,248,0.5) 270deg, transparent 360deg);
+  filter: blur(1px);
+  border-radius: 9999px;
+}
+
+/* Glass panel */
+.glass {
+  background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}

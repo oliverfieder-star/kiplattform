@@ -17,6 +17,7 @@ import NotFound from './pages/NotFound.jsx'
 import HandwerkLanding from './handwerk/Landing.jsx'
 import HandwerkLerntour from './handwerk/Lerntour.jsx'
 import HandwerkLesson from './handwerk/Lesson.jsx'
+import Consulting from './pages/Consulting.jsx'
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation()
@@ -53,11 +54,15 @@ export default function App() {
   // The "KI-Werkstatt" prototype variant ships its own light-theme layout,
   // so the global C&C navbar/footer are suppressed underneath it.
   const isHandwerk = pathname.startsWith('/handwerk')
+  // The consulting marketing page ships its own dark navbar/footer and full-bleed
+  // hero, so the global C&C app chrome is suppressed underneath it.
+  const isConsulting = pathname.startsWith('/consulting')
+  const hideChrome = isHandwerk || isConsulting
 
   return (
     <div className="flex min-h-screen flex-col">
       <ScrollToTop />
-      {!isHandwerk && <Navbar />}
+      {!hideChrome && <Navbar />}
       <main className="flex-1">
         <OnboardingGate>
           <Routes>
@@ -97,11 +102,14 @@ export default function App() {
             <Route path="/handwerk/lerntour" element={<HandwerkLerntour />} />
             <Route path="/handwerk/lektion/:lessonId" element={<HandwerkLesson />} />
 
+            {/* C&C consulting marketing site */}
+            <Route path="/consulting" element={<Consulting />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </OnboardingGate>
       </main>
-      {!isHandwerk && <Footer />}
+      {!hideChrome && <Footer />}
     </div>
   )
 }
