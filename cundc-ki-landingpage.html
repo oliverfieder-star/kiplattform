@@ -387,9 +387,8 @@ section#vorgehen{padding-bottom:clamp(48px,7vw,80px)}
 .jcn-callout:hover .jcn-arrow{transform:translate(3px,-3px);color:var(--cyan-2)}
 @media(min-width:760px){.jcn-callout{grid-template-columns:auto 1fr auto;gap:40px;padding:34px 40px}}
 .jcn-arrow{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid var(--line-2);background:rgba(255,255,255,.04);color:#fff;transition:transform .3s var(--ease),color .3s,border-color .3s;flex:none;justify-self:end}
-.jcn-mark{display:flex;align-items:center;gap:4px;flex:none}
-.jcn-mark span{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,#22d3ee,#8b5cf6);color:#04141b;font-family:'Space Grotesk';font-weight:800;font-size:24px;letter-spacing:.02em;box-shadow:0 14px 36px -14px rgba(34,211,238,.5)}
-.jcn-mark i{font-style:normal;font-family:'Space Grotesk';font-weight:700;font-size:22px;color:#fff;letter-spacing:.01em}
+.jcn-mark{flex:none;display:flex;align-items:center;justify-content:center;padding:18px 24px;border-radius:16px;background:#fff;min-width:220px;box-shadow:0 18px 40px -22px rgba(0,0,0,.5)}
+.jcn-mark svg{display:block;width:auto;height:54px;max-width:100%}
 .jcn-label{font-family:'Space Grotesk';font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan-2);margin-bottom:6px}
 .jcn-body h3{font-family:'Space Grotesk';font-size:clamp(1.15rem,2.2vw,1.5rem);color:#fff;line-height:1.25}
 .jcn-body p{margin-top:10px;color:var(--muted);font-size:15px;max-width:640px}
@@ -505,9 +504,9 @@ footer li a:hover{color:#fff}
           Kostenloses Erstgespräch
           <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a class="btn btn-ghost" href="mailto:info@cundc.org?subject=Beratungsangebot%20KI%20%26%20Digitalisierung%20anfordern&amp;body=Hallo%20C%26C-Team%2C%0A%0Aich%20interessiere%20mich%20f%C3%BCr%20euer%20Beratungsangebot%20rund%20um%20KI%20%26%20Digitalisierung%20und%20bitte%20um%20Zusendung%20der%20Unterlagen.%0A%0AUnternehmen%3A%20%0AAnsprechpartner%3A%20%0A%0AVielen%20Dank%21">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
-          Beratungsangebot anfordern
+        <a class="btn btn-ghost" href="./CC-Proposal-KI-Digitalisierung.pdf" download="CC-Proposal-KI-Digitalisierung.pdf">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+          Beratungsangebot herunterladen
         </a>
       </div>
       <div class="hero-meta">
@@ -794,7 +793,22 @@ footer li a:hover{color:#fff}
     </div>
 
     <a class="jcn-callout" href="https://www.jcnetwork.de" target="_blank" rel="noopener" data-reveal data-d="2">
-      <div class="jcn-mark"><span>JC</span><i>Network</i></div>
+      <div class="jcn-mark">
+        <svg viewBox="0 0 340 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JCNetwork – Enrichment by Partnership">
+          <g transform="translate(2,8)">
+            <polygon points="16,6 28.12,13 28.12,27 16,34 3.88,27 3.88,13" fill="#1d4f7d"/>
+            <polygon points="40.25,6 52.37,13 52.37,27 40.25,34 28.12,27 28.12,13" fill="#111111"/>
+            <polygon points="16,34 28.12,41 28.12,55 16,62 3.88,55 3.88,41" fill="#111111"/>
+            <polygon points="40.25,34 52.37,41 52.37,55 40.25,62 28.12,55 28.12,41" fill="#1d4f7d"/>
+          </g>
+          <g font-family="'Helvetica Neue','Inter',Arial,sans-serif">
+            <text x="72" y="50" font-weight="800" font-size="40" letter-spacing="-1.2">
+              <tspan fill="#1d4f7d">JC</tspan><tspan fill="#111111">Network</tspan>
+            </text>
+            <text x="74" y="74" font-weight="400" font-size="13" fill="#7a8694" letter-spacing="0.3">Enrichment by Partnership</text>
+          </g>
+        </svg>
+      </div>
       <div class="jcn-body">
         <div class="jcn-label">Mitglied im Dachverband</div>
         <h3>Teil von Deutschlands größtem studentischen Beratungs­netzwerk.</h3>
@@ -825,7 +839,7 @@ footer li a:hover{color:#fff}
       <a class="btn btn-primary" href="mailto:info@cundc.org?subject=Erstgespr%C3%A4ch%20KI%20%26%20Digitalisierung">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>info@cundc.org
       </a>
-      <a class="btn btn-ghost" href="./CC-Proposal-KI-Digitalisierung.pdf" download>
+      <a class="btn btn-ghost" href="./CC-Proposal-KI-Digitalisierung.pdf" download="CC-Proposal-KI-Digitalisierung.pdf">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
         Beratungsangebot herunterladen
       </a>
