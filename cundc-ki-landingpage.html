@@ -132,7 +132,7 @@ p{margin:0}
 
 /* ---------- NAVBAR ---------- */
 .nav{position:fixed;inset:0 0 auto 0;z-index:100;transition:background .35s,border-color .35s,backdrop-filter .35s}
-.nav::after{content:"";position:absolute;inset:0;border-bottom:1px solid transparent;transition:border-color .35s}
+.nav::after{content:"";position:absolute;inset:0;border-bottom:1px solid transparent;transition:border-color .35s;pointer-events:none}
 .nav.scrolled{background:rgba(8,13,24,.72);backdrop-filter:blur(16px) saturate(1.2)}
 .nav.scrolled::after{border-color:var(--line)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:70px}
@@ -388,9 +388,8 @@ section#vorgehen{padding-bottom:clamp(48px,7vw,80px)}
 .jcn-callout{margin-top:48px;display:grid;gap:28px;grid-template-columns:1fr;align-items:center;padding:28px;border-radius:22px;border:1px solid var(--line);background:linear-gradient(125deg,rgba(34,211,238,.06),rgba(139,92,246,.06));position:relative;overflow:hidden}
 .jcn-callout::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(34,211,238,.5),transparent 50%,rgba(139,92,246,.5));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.55;pointer-events:none}
 @media(min-width:760px){.jcn-callout{grid-template-columns:auto 1fr;gap:40px;padding:34px 40px}}
-.jcn-mark{display:flex;align-items:center;gap:4px;flex:none}
-.jcn-mark span{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:14px;background:linear-gradient(135deg,#22d3ee,#8b5cf6);color:#04141b;font-family:'Space Grotesk';font-weight:800;font-size:24px;letter-spacing:.02em;box-shadow:0 14px 36px -14px rgba(34,211,238,.5)}
-.jcn-mark i{font-style:normal;font-family:'Space Grotesk';font-weight:700;font-size:22px;color:#fff;letter-spacing:.01em}
+.jcn-mark{flex:none;display:flex;align-items:center;justify-content:center;padding:18px 22px;border-radius:16px;background:#f5f7fa;min-width:200px}
+.jcn-mark img{display:block;max-width:240px;max-height:64px;width:100%;height:auto;object-fit:contain}
 .jcn-label{font-family:'Space Grotesk';font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan-2);margin-bottom:6px}
 .jcn-body h3{font-family:'Space Grotesk';font-size:clamp(1.15rem,2.2vw,1.5rem);color:#fff;line-height:1.25}
 .jcn-body p{margin-top:10px;color:var(--muted);font-size:15px;max-width:640px}
@@ -490,7 +489,7 @@ footer li a:hover{color:#fff}
     <div class="hero-inner">
       <span class="hero-loc">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.58 7-13a7 7 0 10-14 0c0 5.42 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        Würzburger KI für den fränkischen Mittelstand
+        Würzburg&nbsp;&middot;&nbsp;KI für den fränkischen Mittelstand
       </span>
       <h1 class="hero-title">
         <span class="row"><span>Künstliche Intelligenz</span></span>
@@ -506,9 +505,9 @@ footer li a:hover{color:#fff}
           Kostenloses Erstgespräch
           <svg class="arr" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a class="btn btn-ghost" href="./CC-Proposal-KI-Digitalisierung.pdf" download>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
-          Beratungsangebot herunterladen
+        <a class="btn btn-ghost" href="mailto:info@cundc.org?subject=Beratungsangebot%20KI%20%26%20Digitalisierung%20anfordern&amp;body=Hallo%20C%26C-Team%2C%0A%0Aich%20interessiere%20mich%20f%C3%BCr%20euer%20Beratungsangebot%20rund%20um%20KI%20%26%20Digitalisierung%20und%20bitte%20um%20Zusendung%20der%20Unterlagen.%0A%0AUnternehmen%3A%20%0AAnsprechpartner%3A%20%0A%0AVielen%20Dank%21">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          Beratungsangebot anfordern
         </a>
       </div>
       <div class="hero-meta">
@@ -782,20 +781,20 @@ footer li a:hover{color:#fff}
       <div class="logo-tile has-img" title="PASS Consulting Group"><img class="lg-img" src="./img/logos/pass.jpg" alt="PASS Consulting Group" loading="lazy"></div>
       <div class="logo-tile has-img" title="KPMG"><img class="lg-img" src="./img/logos/kpmg.png" alt="KPMG" loading="lazy"></div>
       <div class="logo-tile has-img" title="J.P. Morgan"><img class="lg-img" src="./img/logos/jpmorgan.jpg" alt="J.P. Morgan" loading="lazy"></div>
-      <div class="logo-tile" title="BMW Group"><span class="lm bmw"></span><span class="lt" style="font-weight:700;letter-spacing:.04em">BMW Group</span></div>
+      <div class="logo-tile has-img" title="BMW Group"><img class="lg-img" src="./img/logos/bmw-group.png" alt="BMW Group" loading="lazy"></div>
       <div class="logo-tile has-img" title="Debeka"><img class="lg-img" src="./img/logos/debeka.png" alt="Debeka" loading="lazy"></div>
-      <div class="logo-tile" title="Cinemaxx"><span class="lt cinemaxx">Cinema<span>XX</span></span></div>
+      <div class="logo-tile has-img" title="Cinemaxx"><img class="lg-img" src="./img/logos/cinemaxx.png" alt="Cinemaxx" loading="lazy"></div>
       <div class="logo-tile has-img" title="alfi"><img class="lg-img" src="./img/logos/alfi.png" alt="alfi" loading="lazy"></div>
-      <div class="logo-tile" title="Caritas"><span class="lm caritas">✚</span><span class="lt" style="font-weight:500">caritas</span></div>
-      <div class="logo-tile" title="Würzburger Hofbräu"><span class="lm crest">★</span><span class="lt" style="font-family:'Space Grotesk';font-style:italic;font-weight:600">Würzburger Hofbräu</span></div>
-      <div class="logo-tile" title="kurtz ersa"><span class="lt" style="font-weight:600">kurtz<i style="opacity:.85;margin-left:6px">ersa</i></span></div>
+      <div class="logo-tile has-img" title="Caritas"><img class="lg-img" src="./img/logos/caritas.png" alt="Caritas" loading="lazy"></div>
+      <div class="logo-tile has-img" title="Würzburger Hofbräu"><img class="lg-img" src="./img/logos/hofbraeu.png" alt="Würzburger Hofbräu" loading="lazy"></div>
+      <div class="logo-tile has-img" title="kurtz ersa"><img class="lg-img" src="./img/logos/kurtz-ersa.png" alt="kurtz ersa" loading="lazy"></div>
       <div class="logo-tile has-img" title="Die Tafeln"><img class="lg-img" src="./img/logos/die-tafeln.png" alt="Die Tafeln" loading="lazy"></div>
       <div class="logo-tile has-img" title="Würzburg macht Spaß"><img class="lg-img" src="./img/logos/wuerzburg-macht-spass.jpg" alt="Würzburg macht Spaß" loading="lazy"></div>
-      <div class="logo-tile" title="Wölfe Würzburg"><span class="lm wolves">▲</span><span class="lt" style="font-weight:700;letter-spacing:.06em">WÖLFE&nbsp;WÜRZBURG</span></div>
+      <div class="logo-tile has-img" title="Wölfe Würzburg"><img class="lg-img" src="./img/logos/woelfe-wuerzburg.png" alt="Wölfe Würzburg" loading="lazy"></div>
     </div>
 
     <div class="jcn-callout" data-reveal data-d="2">
-      <div class="jcn-mark"><span>JC</span><i>Network</i></div>
+      <div class="jcn-mark"><img src="./img/logos/jcnetwork.png" alt="JCNetwork – Enrichment by Partnership"></div>
       <div class="jcn-body">
         <div class="jcn-label">Mitglied im Dachverband</div>
         <h3>Teil von Deutschlands größtem studentischen Beratungs­netzwerk.</h3>
